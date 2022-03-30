@@ -1,19 +1,47 @@
 // import logo from './logo.svg';
 import './App.css';
-import { Message } from './components/Message/Message';
+// import { Message } from './components/Message/Message';
+import { useEffect, useState } from "react"
+import { Form } from './components/Form/Form';
+import { MessageList } from './components/MessageList/MessageList';
 
 const name = "Max";
-const names = "Maxim";
+// const msgs = [{
+//   author: name,
+//   text: "text1"
+// },
+// {
+//   author: name,
+//   text: "text2"
+// }];
+
 
 
 function App() {
-  const foo = () => {
-    alert("Hello");
+  const [messages, setMessages] = useState([]);
+
+  const addMessage = (newText) => {
+    setMessages([...messages, {text: newText, author: name}]);
   };
+
+  useEffect(() => {
+    let timer;
+    if(messages[messages.length - 1]?.author === name) {
+      timer = setTimeout(() => {
+        setMessages([...messages, {text: "Hello my friend", author: "Robot"}]);
+      }, 1000);      
+    }
+    return () => {
+      clearTimeout(timer);
+    }
+  }, [messages]);
+
   return (
     <div className="App">
-      <Message name={name} year={50 - 17} doSmth={foo} bold={true}/>
-      <Message name={names} year={50 + 50} doSmth={foo} />
+      {/* <Message author={name} text="text" /> */}
+      <MessageList messages={messages}/>
+      {/* <button onClick={addMessage}>Add msg</button> */}
+      <Form onSubmit={addMessage} />
     </div>
   );
 }

@@ -4,3 +4,7 @@
 .header {
     font-weight: 200;
 }
+.flexis {
+    display: flex;
+    justify-content: space-between;   
+}
