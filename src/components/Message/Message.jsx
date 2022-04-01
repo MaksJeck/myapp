@@ -1,4 +1,5 @@
 import './Message.style.css';
+import PropTypes from 'prop-types';
 
 export const Message = ({ author, text }) => {
     return (
@@ -8,4 +9,9 @@ export const Message = ({ author, text }) => {
             <span className="">{text}</span>
         </div>
     );
+}
+
+Message.propTypes = {
+    author: PropTypes.string.isRequired,
+    text: PropTypes.string,
 }
