@@ -1,7 +1,9 @@
-import { List, ListItem, ListItemText, ListItemAvatar, Avatar } from '@mui/material';
+import { List, ListItem, ListItemText, ListItemAvatar, Avatar, Button } from '@mui/material';
 import ImageIcon from '@mui/icons-material/Image';
 import './Chats.style.css';
 import { Link, Outlet } from 'react-router-dom';
+import { useContext } from 'react';
+import { ThemeContext } from '../../utils/ThemeContext';
 
 const chat = [{
     auth: "Дмитрий",
@@ -26,8 +28,11 @@ const chat = [{
 
 export const Chats = () => {
 
+    const {changeTheme} = useContext(ThemeContext);
     return (
         <>
+
+        <Button onClick={changeTheme}>Theme</Button>
             <div className="div_position">
                 {chat.map((chat) => (
                     <Link to={`/chat/${chat.id}`} key={chat.id}>
