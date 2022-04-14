@@ -1,33 +1,34 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Navigate, useParams } from "react-router-dom";
-import { Chats } from "../../components/Chats/Chats";
 import { Form } from "../../components/Form/Form";
 import { MessageList } from "../../components/MessageList/MessageList";
 import { AUTHORS } from "../../utils/constants";
 
-const initMessages = {
-    chat1: [],
-    chat2: [],
-    chat3: [],
-    chat4: [],
-};
+// const initMessages = {
+//     chat1: [],
+//     chat2: [],
+//     chat3: [],
+//     chat4: [],
+// };
 
-export function Chat() {
+export function Chat({ messages, addMessage }) {
     const { id } = useParams();
-    const [messages, setMessages] = useState(initMessages);
+    // const [messages, setMessages] = useState(initMessages);
 
     const timer = useRef();
 
-    const addMessage = (newMsg) => {
-        setMessages({ ...messages, [id]: [...messages[id], newMsg] });
-    };
+    // const addMessage = (newMsg) => {
+    //     // setMessages({ ...messages, [id]: [...messages[id], newMsg] });
+    // };
 
     const sendMessage = (text) => {
         addMessage({
             author: AUTHORS.human,
             text,
             id: `msg-${Date.now()}`
-        })
+        }, 
+        id
+        );
     };
 
     useEffect(() => {
@@ -38,7 +39,9 @@ export function Chat() {
                     text: "Hello my friend",
                     author: AUTHORS.robot,
                     id: `msg-${Date.now()}`,
-                });
+                },
+                id
+                );
             }, 1000);
         }
         return () => {
