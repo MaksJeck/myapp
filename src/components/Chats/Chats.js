@@ -5,6 +5,10 @@ import { Link, Outlet } from 'react-router-dom';
 import { useContext } from 'react';
 import { ThemeContext } from '../../utils/ThemeContext';
 import { Form } from '../Form/Form';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectChats } from '../../store/chats/selectors';
+import { addChat, deleteChat } from '../../store/chats/actions';
+import { clearMessages, initMessagesForChat } from '../../store/messages/actions';
 
 // const chat = [{
 //     auth: "Дмитрий",
@@ -27,15 +31,23 @@ import { Form } from '../Form/Form';
 //     id: "chat4"
 // }];
 
-export const Chats = ({ chats, addChat, deleteChat }) => {
+export const Chats = () => {
+    const chats = useSelector(selectChats);
+    const dispatch = useDispatch();
 
     const handleSubmit = (newChatName) => {
         const newChat = {
             auth: newChatName,
             id: `chat-${Date.now()}`,
         };
-        addChat(newChat);
+        dispatch(addChat(newChat));
+        dispatch(initMessagesForChat(newChat.id));
     };
+
+    const handleRemoveChat = (id) => {
+        dispatch(deleteChat(id));
+        dispatch(clearMessages(id));
+    }
     const {changeTheme} = useContext(ThemeContext);
 
     return (
@@ -57,7 +69,7 @@ export const Chats = ({ chats, addChat, deleteChat }) => {
                             </ListItem>
                         </List>
                     </Link>
-                    <span onClick={() => deleteChat(chats.id)}>delete</span>
+                    <span onClick={() => handleRemoveChat(chats.id)}>delete</span>
                     </div>
                 ))}
             </div>

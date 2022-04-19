@@ -1,7 +1,10 @@
 import { useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useParams } from "react-router-dom";
 import { Form } from "../../components/Form/Form";
 import { MessageList } from "../../components/MessageList/MessageList";
+import { addMessage } from "../../store/messages/actions";
+import { selectMessages } from "../../store/messages/selectors";
 import { AUTHORS } from "../../utils/constants";
 
 // const initMessages = {
@@ -11,8 +14,10 @@ import { AUTHORS } from "../../utils/constants";
 //     chat4: [],
 // };
 
-export function Chat({ messages, addMessage }) {
+export function Chat() {
     const { id } = useParams();
+    const messages = useSelector(selectMessages);
+    const dispatch = useDispatch();
     // const [messages, setMessages] = useState(initMessages);
 
     const timer = useRef();
@@ -22,25 +27,28 @@ export function Chat({ messages, addMessage }) {
     // };
 
     const sendMessage = (text) => {
-        addMessage({
-            author: AUTHORS.human,
-            text,
-            id: `msg-${Date.now()}`
-        }, 
-        id
-        );
+        dispatch(
+            addMessage({
+                author: AUTHORS.human,
+                text,
+                id: `msg-${Date.now()}`
+            },
+                id
+            ));
     };
 
     useEffect(() => {
         const lastMessage = messages[id]?.[messages[id]?.length - 1];
         if (lastMessage?.author === AUTHORS.human) {
             timer.current = setTimeout(() => {
-                addMessage({
-                    text: "Hello my friend",
-                    author: AUTHORS.robot,
-                    id: `msg-${Date.now()}`,
-                },
-                id
+                dispatch(
+                    addMessage({
+                        text: "Hello my friend",
+                        author: AUTHORS.robot,
+                        id: `msg-${Date.now()}`,
+                    },
+                        id
+                    )
                 );
             }, 1000);
         }
