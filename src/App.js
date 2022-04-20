@@ -10,6 +10,7 @@ import { Profile } from './components/Profile/Profile';
 import { ThemeContext } from './utils/ThemeContext';
 import { useState } from 'react';
 import { ChatContainer } from './screens/Chat/ChatContainer';
+import { ChatsContainer } from './components/Chats/ChatsContainer';
 // import { addChat, deleteChat } from './store/chats/actions';
 // import { selectChats } from './store/chats/selectors';
 // import { selectMessages } from './store/messages/selectors';
@@ -116,7 +117,8 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/profile' element={<Profile />} />
-          <Route path='/chat' element={<Chats />}>
+          {/* <Route path='/chat' element={<Chats />}> */}
+          <Route path='/chat' element={<ChatsContainer />}>
             {/* <Route path=':id' element={<Chat />} /> */}
             <Route path=':id' element={<ChatContainer />} />
           </Route>
@@ -128,6 +130,3 @@ function App() {
 }
 
 export default App;
-
-{/* <Chats deleteChat={removeChat} addChat={addNewChat} chats={chats} /> */ }
-{/* <Chat messages={messages} addMessage={addNewMessage} /> */}
