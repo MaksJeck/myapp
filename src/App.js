@@ -9,6 +9,7 @@ import { Errorputh } from './components/Errors/Error404';
 import { Profile } from './components/Profile/Profile';
 import { ThemeContext } from './utils/ThemeContext';
 import { useState } from 'react';
+import { ChatContainer } from './screens/Chat/ChatContainer';
 // import { addChat, deleteChat } from './store/chats/actions';
 // import { selectChats } from './store/chats/selectors';
 // import { selectMessages } from './store/messages/selectors';
@@ -116,7 +117,8 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/profile' element={<Profile />} />
           <Route path='/chat' element={<Chats />}>
-            <Route path=':id' element={<Chat />} />
+            {/* <Route path=':id' element={<Chat />} /> */}
+            <Route path=':id' element={<ChatContainer />} />
           </Route>
           <Route path='*' element={<Errorputh />} />
         </Routes>
