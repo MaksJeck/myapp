@@ -1,8 +1,8 @@
 import './App.css';
 // import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { Chats } from './components/Chats/Chats';
+// import { Chats } from './components/Chats/Chats';
 import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
-import { Chat } from './screens/Chat/Chat';
+// import { Chat } from './screens/Chat/Chat';
 import { Button, ButtonGroup } from '@mui/material';
 import { Home } from './components/Homepage/Homepage';
 import { Errorputh } from './components/Errors/Error404';
@@ -11,6 +11,7 @@ import { ThemeContext } from './utils/ThemeContext';
 import { useState } from 'react';
 import { ChatContainer } from './screens/Chat/ChatContainer';
 import { ChatsContainer } from './components/Chats/ChatsContainer';
+import { Articles } from './screens/Articles/Articles';
 // import { addChat, deleteChat } from './store/chats/actions';
 // import { selectChats } from './store/chats/selectors';
 // import { selectMessages } from './store/messages/selectors';
@@ -113,10 +114,20 @@ function App() {
               Chat
             </NavLink>
           </Button>
+
+          <Button>
+            <NavLink
+              to="/articles"
+              style={({ isActive }) => ({ color: isActive ? "red" : "blue" })}
+            >
+              Articles
+            </NavLink>
+          </Button>
         </ButtonGroup>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/profile' element={<Profile />} />
+          <Route path='/articles' element={<Articles />} />
           {/* <Route path='/chat' element={<Chats />}> */}
           <Route path='/chat' element={<ChatsContainer />}>
             {/* <Route path=':id' element={<Chat />} /> */}
