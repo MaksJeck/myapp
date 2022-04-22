@@ -1,9 +1,10 @@
 import { CircularProgress } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getArticles } from "../../store/articles/actions";
 import { selectArticles, selectArticlesError, selectArticlesStatus } from "../../store/articles/selectors";
-import { apiUrl, FETCH_STATUSES } from "../../utils/constants";
+import { FETCH_STATUSES } from "../../utils/constants";
+import './Articles.style.css';
 
 export const Articles = () => {
     const dispatch = useDispatch();
@@ -45,7 +46,8 @@ export const Articles = () => {
             <h3>Articles</h3>
             <button onClick={sendRequest}>GET</button>
             {/* {loading && <CircularProgress/>} */}
-            {status === FETCH_STATUSES.REQUEST && <CircularProgress />}
+            {/* <img src="https://a-mne.ru/image/catalog/themevolty/pageloader/ttv_loading.gif" alt="loader"/>             */}
+            {status === FETCH_STATUSES.REQUEST && <div className="pull"></div>}
             {error && <h4>{error}</h4>}
             <ul>
                 {articles.map((article) => (
@@ -55,3 +57,5 @@ export const Articles = () => {
         </>
     );
 };
+
+{/* <CircularProgress /> */}
