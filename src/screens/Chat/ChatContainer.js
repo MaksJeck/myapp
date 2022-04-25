@@ -25,7 +25,7 @@ export const ChatContainer = () => {
 
     if (!messages) {
         return <Navigate to="/error404" replace />
-    }
+    };
 
     return (
             <Chat messages={messages} sendMessage={sendMessage}/>
