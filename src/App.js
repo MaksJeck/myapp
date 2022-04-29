@@ -1,25 +1,106 @@
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
+import { Button, ButtonGroup } from '@mui/material';
+import { Home } from './components/Homepage/Homepage';
+import { Errorputh } from './components/Errors/Error404';
+import { Profile } from './components/Profile/Profile';
+import { ThemeContext } from './utils/ThemeContext';
+import { useEffect, useState } from 'react';
+import { ChatContainer } from './screens/Chat/ChatContainer';
+import { ChatsContainer } from './components/Chats/ChatsContainer';
+import { Articles } from './screens/Articles/Articles';
+import { PrivateRoute } from './components/PrivateRoute/PrivateRoute';
+import { PublicRoute } from './components/PublicRoute/PublicRoute';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './services/firebase';
 
 function App() {
+  const [theme, setTheme] = useState("dark");
+
+  const [authed, setAuthed] = useState(false);
+  const handleLogin = () => {
+    setAuthed(true);
+  };
+  const handleLogout = () => {
+    setAuthed(false);
+  };
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        handleLogin();
+      } else {
+        handleLogout();
+      }
+    });
+    return unsubscribe;
+  }, []);
+  const toggleTheme = () => {
+    setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"))
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <ThemeContext.Provider value={{ theme, changeTheme: toggleTheme }}>
+      <BrowserRouter>
+        <ButtonGroup variant="outlined" aria-label="outlined button group">
+
+          <Button>
+            <NavLink
+              to="/"
+              style={({ isActive }) => ({ color: isActive ? "red" : "blue" })}
+            >
+              Home
+            </NavLink>
+          </Button>
+
+          <Button>
+            <NavLink
+              to="/profile"
+              style={({ isActive }) => ({ color: isActive ? "red" : "blue" })}
+            >
+              Profile
+            </NavLink>
+          </Button>
+
+          <Button>
+            <NavLink
+              to="/chat"
+              style={({ isActive }) => ({ color: isActive ? "red" : "blue" })}
+            >
+              Chat
+            </NavLink>
+          </Button>
+
+          <Button>
+            <NavLink
+              to="/articles"
+              style={({ isActive }) => ({ color: isActive ? "red" : "blue" })}
+            >
+              Articles
+            </NavLink>
+          </Button>
+
+        </ButtonGroup>
+        <Routes>
+          <Route path='/' element={<PublicRoute authed={authed} />} >
+          <Route path='' element={<Home onAuth={handleLogin}/>} />
+          <Route path='signup' element={<Home onAuth={handleLogin} isSignUp />} />
+          </Route>
+          
+
+          <Route path='/profile' element={<PrivateRoute authed={authed} />} >
+            <Route path='' element={<Profile onLogout={handleLogout}/>} />
+            </Route>
+
+          <Route path='/articles' element={<Articles />} />
+          <Route path='/chat' element={<ChatsContainer />}>
+            <Route path=':id' element={<ChatContainer />} />
+          </Route>
+          <Route path='*' element={<Errorputh />} />
+        </Routes>
+      </BrowserRouter>
+    </ThemeContext.Provider>
+  )
 }
 
 export default App;
