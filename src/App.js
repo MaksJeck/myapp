@@ -5,12 +5,14 @@ import { Home } from './components/Homepage/Homepage';
 import { Errorputh } from './components/Errors/Error404';
 import { Profile } from './components/Profile/Profile';
 import { ThemeContext } from './utils/ThemeContext';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ChatContainer } from './screens/Chat/ChatContainer';
 import { ChatsContainer } from './components/Chats/ChatsContainer';
 import { Articles } from './screens/Articles/Articles';
 import { PrivateRoute } from './components/PrivateRoute/PrivateRoute';
 import { PublicRoute } from './components/PublicRoute/PublicRoute';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './services/firebase';
 
 function App() {
   const [theme, setTheme] = useState("dark");
@@ -22,6 +24,17 @@ function App() {
   const handleLogout = () => {
     setAuthed(false);
   };
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        handleLogin();
+      } else {
+        handleLogout();
+      }
+    });
+    return unsubscribe;
+  }, []);
   const toggleTheme = () => {
     setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"))
   };
@@ -71,6 +84,7 @@ function App() {
         <Routes>
           <Route path='/' element={<PublicRoute authed={authed} />} >
           <Route path='' element={<Home onAuth={handleLogin}/>} />
+          <Route path='signup' element={<Home onAuth={handleLogin} isSignUp />} />
           </Route>
           
 
