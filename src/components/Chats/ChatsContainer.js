@@ -1,10 +1,6 @@
 import './Chats.style.css';
 import { useContext, useEffect, useState } from 'react';
 import { ThemeContext } from '../../utils/ThemeContext';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectChats } from '../../store/chats/selectors';
-import { addChat, deleteChat } from '../../store/chats/actions';
-import { clearMessages, initMessagesForChat } from '../../store/messages/actions';
 import { Chats } from './Chats';
 import { onValue, remove, set } from 'firebase/database';
 import { chatsRef, getChatRefById, getMsgsRefById } from '../../services/firebase';
@@ -12,7 +8,7 @@ import { chatsRef, getChatRefById, getMsgsRefById } from '../../services/firebas
 export const ChatsContainer = () => {
     const [chats, setChats] = useState([]);
     // const chats = useSelector(selectChats);
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
     const handleSubmit = (newChatName) => {
         const newChat = {

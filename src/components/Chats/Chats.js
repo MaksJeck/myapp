@@ -18,7 +18,8 @@ export const Chats = ({changeTheme, handleRemoveChat, handleSubmit, chats}) => (
                                         <ImageIcon />
                                     </Avatar>
                                 </ListItemAvatar>
-                                <ListItemText primary={chats.auth} secondary={chats.txt} />
+                                {/* <ListItemText primary={chats.auth} secondary={chats.txt} /> */}
+                                <ListItemText primary={chats.auth}/>
                             </ListItem>
                         </List>
                     </Link>
